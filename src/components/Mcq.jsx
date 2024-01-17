@@ -4,6 +4,8 @@ import React, { useState, useRef } from "react";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 
+import { Button } from "@/components/ui/button";
+
 const McqQuiz = ({ questions }) => {
   const length = questions.length;
   const answers = Array(length).fill("");
@@ -48,15 +50,15 @@ const McqQuiz = ({ questions }) => {
   };
 
   return (
-    <div className="mt-8 bg-white rounded-xl shadow-md p-6 text-black max-w-3xl mx-auto">
+    <div className="mt-5 bg-white rounded-xl shadow-md p-6 text-black max-w-3xl mx-auto">
       {toggleScore && (
-        <div className="pb-14">
+        <div className="pb-10">
           <div
             ref={scoreRef}
-            className="mt-8 bg-gray-100 rounded-xl shadow-md px-6 pb-14 pt-6 text-black"
+            className="mt-8 bg-gray-100 rounded-xl shadow-md px-6 pb-5 pt-6 text-black"
           >
-            <h3 className="text-2xl font-bold mb-4">Score</h3>
-            <p className="font-semibold text-lg">
+            <h3 className="text-xl font-bold mb-4">Score</h3>
+            <p className=" text-lg">
               You scored <span className="text-green-500">{score}</span> out of{" "}
               {length}
             </p>
@@ -64,7 +66,7 @@ const McqQuiz = ({ questions }) => {
         </div>
       )}
 
-      <h3 className="text-3xl font-bold mb-8">Generated Questions</h3>
+      {/* <h3 className="text-3xl font-bold mb-8">Generated Questions</h3> */}
       <ul id="mcq-quiz-content">
         {questions.map((element, questionIndex) => (
           <li
@@ -75,63 +77,86 @@ const McqQuiz = ({ questions }) => {
               {element.id}) {element.question}
             </p>
             <ul className="ml-6 space-y-2">
-              {element.options.map((option, optionIndex) => (
-                <li key={optionIndex} className="mb-2">
-                  <label className="cursor-pointer text-gray-800 flex items-center">
-                    <input
-                      className="mr-2 cursor-pointer appearance-none rounded w-4 h-4 checked:bg-gray-600 checked:border-transparent"
-                      type="radio"
-                      name={`question-${questionIndex}`}
-                      value={optionIndex}
-                      checked={selectedAnswer[questionIndex] === optionIndex}
-                      onChange={() =>
-                        handleAnswerChange(questionIndex, optionIndex)
-                      }
-                      disabled={answered}
-                    />
-                    <span
-                      className={`${
-                        answered && option === element.answer
-                          ? "text-red-500"
-                          : "text-gray-800"
-                      }`}
-                    >
-                      {option}
-                    </span>
-                  </label>
-                </li>
-              ))}
+              {/* <RadioGroup defaultValue="option-one"> */}
+                {element.options.map((option, optionIndex) => (
+
+                  <li key={optionIndex} className="mb-2">
+                    <label className="cursor-pointer text-black flex items-center">
+                      <input
+                        className="mr-2 cursor-pointer aspect-square h-4 w-4 rounded-full border border-primary text-primary shadow focus:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 checked:bg-gray-600 checked:border-transparent"
+                        type="radio"
+                        name={`question-${questionIndex}`}
+                        value={optionIndex}
+                        checked={selectedAnswer[questionIndex] === optionIndex}
+                        onChange={() =>
+                          handleAnswerChange(questionIndex, optionIndex)
+                        }
+                        disabled={answered}
+                      />
+                      <span
+                        className={`${
+                          answered && option === element.answer
+                            ? "text-red-500"
+                            : "text-gray-800"
+                        }`}
+                      >
+                        {option}
+                      </span>
+                    </label> 
+                  </li>
+                ))}
+              {/* </RadioGroup> */}
             </ul>
           </li>
         ))}
       </ul>
       <div className="flex space-x-4 mt-8">
-        <button
+        <Button variant="default"
+          onClick={handleSubmit}
+          className="flex-grow"
+          disabled={answered}
+        >
+          Submit
+        </Button>
+        {/* <button
           type="submit"
           onClick={handleSubmit}
           className="flex-grow bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded focus:outline-none focus:shadow-outline w-full"
           disabled={answered}
         >
           Submit
-        </button>
+        </button> */}
 
         {toggleScore && (
-          <button
+          <Button variant="outline"
             onClick={() =>
               scoreRef.current.scrollIntoView({ behavior: "smooth" })
             }
-            className="flex-grow bg-gray-500 hover:bg-gray-600 text-white font-bold py-3 px-6 rounded focus:outline-none focus:shadow-outline w-full"
+            className="flex-grow"
           >
             Check Score
-          </button>
+          </Button>
+          // <button
+          //   onClick={() =>
+          //     scoreRef.current.scrollIntoView({ behavior: "smooth" })
+          //   }
+          //   className="flex-grow bg-gray-500 hover:bg-gray-600 text-white font-bold py-3 px-6 rounded focus:outline-none focus:shadow-outline w-full"
+          // >
+          //   Check Score
+          // </button>
         )}
-
-        <button
+        <Button variant="destructive"
+          onClick={handleSaveAsPDF}
+          className="flex-grow"
+        >
+          Save as PDF
+        </Button>
+        {/* <button
           onClick={handleSaveAsPDF}
           className="flex-grow bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded focus:outline-none focus:shadow-outline w-full"
         >
           Save as PDF
-        </button>
+        </button> */}
       </div>
     </div>
   );
