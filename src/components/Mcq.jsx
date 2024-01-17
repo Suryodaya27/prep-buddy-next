@@ -50,12 +50,12 @@ const McqQuiz = ({ questions }) => {
   };
 
   return (
-    <div className="mt-5 bg-white rounded-xl shadow-md p-6 text-black max-w-3xl mx-auto">
+    <div className="mt-3 mb-10 bg-white rounded-xl shadow-md p-6 text-black max-w-3xl mx-auto">
       {toggleScore && (
         <div className="pb-10">
           <div
             ref={scoreRef}
-            className="mt-8 bg-gray-100 rounded-xl shadow-md px-6 pb-5 pt-6 text-black"
+            className="mt-3 bg-gray-100 rounded-xl shadow-md px-6 pb-5 pt-6 text-black"
           >
             <h3 className="text-xl font-bold mb-4">Score</h3>
             <p className=" text-lg">
@@ -110,7 +110,7 @@ const McqQuiz = ({ questions }) => {
           </li>
         ))}
       </ul>
-      <div className="flex space-x-4 mt-8">
+      <div className="flex space-x-4 mt-8 mb-5">
         <Button variant="default"
           onClick={handleSubmit}
           className="flex-grow"
