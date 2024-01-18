@@ -32,47 +32,15 @@ export function MainNav() {
         >
           Generate Mcq
         </Link>
-        {/* <Link
-          href="/docs/components"
-          className={cn(
-            "transition-colors hover:text-foreground/80",
-            pathname?.startsWith("/docs/components")
-              ? "text-foreground"
-              : "text-foreground/60"
-          )}
-        >
-          Saved Questions
-        </Link> */}
-        {/* <Link
-          href="/themes"
-          className={cn(
-            "transition-colors hover:text-foreground/80",
-            pathname?.startsWith("/themes")
-              ? "text-foreground"
-              : "text-foreground/60"
-          )}
-        >
-          Themes
-        </Link> */}
-        {/* <Link
-          href="/examples"
-          className={cn(
-            "transition-colors hover:text-foreground/80",
-            pathname?.startsWith("/examples")
-              ? "text-foreground"
-              : "text-foreground/60"
-          )}
-        >
-          Examples
-        </Link> */}
-        {/* <Link
-          href="/"
+        
+        <Link
+          href="/saved_questions"
           className={cn(
             "hidden text-foreground/60 transition-colors hover:text-foreground/80 lg:block"
           )}
         >
-          Contact Us
-        </Link> */}
+          Saved Questions
+        </Link>
       </nav>
       </div>
       <Separator className="hidden lg:block" />
