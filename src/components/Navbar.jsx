@@ -27,7 +27,7 @@ export function MainNav() {
           href="/"
           className={cn(
             "transition-colors hover:text-foreground/80",
-            pathname === "/docs" ? "text-foreground" : "text-foreground/60"
+            pathname === "/" ? "text-foreground" : "text-foreground/60"
           )}
         >
           Generate Mcq
@@ -36,7 +36,8 @@ export function MainNav() {
         <Link
           href="/saved_questions"
           className={cn(
-            "hidden text-foreground/60 transition-colors hover:text-foreground/80 lg:block"
+            "transition-colors hover:text-foreground/80",
+            pathname === "/saved_questions" ? "text-foreground" : "text-foreground/60"
           )}
         >
           Saved Questions
