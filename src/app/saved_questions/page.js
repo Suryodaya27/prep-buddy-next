@@ -1,5 +1,4 @@
 import { MainNav } from "@/components/Navbar";
-import draw from "@/components/draw";
 
 import {
   Drawer,
