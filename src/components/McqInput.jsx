@@ -53,12 +53,12 @@ const McqInput = () => {
 
   return (
     <div className="max-w-3xl mx-auto mt-10">
-      <div className="flex flex-col items-center justify-center bg-gray-100 rounded-md p-4 space-y-4">
+      <div className="flex flex-col items-center justify-center rounded-md p-4 space-y-4">
         <Input
           type="text"
           value={inputParagraph}
           onChange={handleInputChange}
-          className="border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500 w-full bg-white text-black"
+          className="border border-gray-300 rounded-md py-5 my-1 px-3 focus:outline-none focus:border-blue-500 w-full bg-white text-black"
           placeholder="Enter Input Text"
         />
         {/* <input
@@ -71,7 +71,7 @@ const McqInput = () => {
         <Input
           type="number"
           onChange={(e) => setNoOfQuestions(Math.max(0, parseInt(e.target.value)))}
-          className="border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500 w-full bg-white text-black"
+          className="border border-gray-300 rounded-md py-5 my-1 px-3 focus:outline-none focus:border-blue-500 w-full bg-white text-black"
           placeholder="Enter No. of Questions" 
         />
 
@@ -91,7 +91,7 @@ const McqInput = () => {
           <Button 
             variant="outline"
             onClick={handleUsePreviousInput}
-            className="flex-grow"
+            className="flex-grow py-5 my-1"
           >Use Previous Input</Button>
           {/* <button
             disabled={disable}
@@ -103,7 +103,7 @@ const McqInput = () => {
           <Button variant="default"
             onClick={handleSubmit}
             disabled={disable}
-            className="flex-grow"
+            className="flex-grow py-5 my-1"
           >{loading ? "Generating..." : "Submit"}</Button>
 
         </div>
