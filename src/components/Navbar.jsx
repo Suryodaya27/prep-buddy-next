@@ -44,7 +44,7 @@ export function MainNav() {
         </Link>
       </nav>
       </div>
-      <Separator className="hidden lg:block" />
+      <Separator/>
 
       
     </div>

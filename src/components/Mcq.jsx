@@ -50,12 +50,12 @@ const McqQuiz = ({ questions }) => {
   };
 
   return (
-    <div className="mt-3 mb-10 bg-white rounded-xl shadow-md p-6 text-black max-w-3xl mx-auto">
+    <div className="mt-3 mb-10 bg-gray-50 rounded-xl shadow-md p-6 text-black mx-auto">
       {toggleScore && (
         <div className="pb-10">
           <div
             ref={scoreRef}
-            className="mt-3 bg-gray-100 rounded-xl shadow-md px-6 pb-5 pt-6 text-black"
+            className="mt-3 bg-white rounded-xl shadow-md px-6 pb-5 pt-6 text-black"
           >
             <h3 className="text-xl font-bold mb-4">Score</h3>
             <p className=" text-lg">
@@ -71,17 +71,17 @@ const McqQuiz = ({ questions }) => {
         {questions.map((element, questionIndex) => (
           <li
             key={element.id}
-            className="mb-8 p-6 bg-gray-100 hover:shadow-lg rounded-lg"
+            className="mb-4 p-6 outline-1 bg-white  hover:shadow-lg rounded-lg"
           >
-            <p className="font-semibold mb-4 text-lg">
-              {element.id}) {element.question}
+            <p className=" font-medium mb-2 font-sans text-lg">
+              {element.question}
             </p>
             <ul className="ml-6 space-y-2">
               {/* <RadioGroup defaultValue="option-one"> */}
                 {element.options.map((option, optionIndex) => (
 
                   <li key={optionIndex} className="mb-2">
-                    <label className="cursor-pointer text-black flex items-center">
+                    <label className="cursor-pointer text-black flex font-sans items-center">
                       <input
                         className="mr-2 cursor-pointer aspect-square h-4 w-4 rounded-full border border-primary text-primary shadow focus:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 checked:bg-gray-600 checked:border-transparent"
                         type="radio"
@@ -118,14 +118,7 @@ const McqQuiz = ({ questions }) => {
         >
           Submit
         </Button>
-        {/* <button
-          type="submit"
-          onClick={handleSubmit}
-          className="flex-grow bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded focus:outline-none focus:shadow-outline w-full"
-          disabled={answered}
-        >
-          Submit
-        </button> */}
+        
 
         {toggleScore && (
           <Button variant="outline"
@@ -136,14 +129,7 @@ const McqQuiz = ({ questions }) => {
           >
             Check Score
           </Button>
-          // <button
-          //   onClick={() =>
-          //     scoreRef.current.scrollIntoView({ behavior: "smooth" })
-          //   }
-          //   className="flex-grow bg-gray-500 hover:bg-gray-600 text-white font-bold py-3 px-6 rounded focus:outline-none focus:shadow-outline w-full"
-          // >
-          //   Check Score
-          // </button>
+          
         )}
         <Button variant="destructive"
           onClick={handleSaveAsPDF}
@@ -151,12 +137,7 @@ const McqQuiz = ({ questions }) => {
         >
           Save as PDF
         </Button>
-        {/* <button
-          onClick={handleSaveAsPDF}
-          className="flex-grow bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded focus:outline-none focus:shadow-outline w-full"
-        >
-          Save as PDF
-        </button> */}
+        
       </div>
     </div>
   );
