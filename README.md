@@ -1,36 +1,25 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+youtube demo : https://youtu.be/DJbpZsGdnKE
+live-link : https://prep-buddy-next.vercel.app
+Generates mcqs based of given input text
+The Interactive MCQ Quiz Application is a web-based platform designed to offer users an engaging way to test their knowledge through a multiple-choice question format. The application provides a user-friendly interface where users can answer a set of generated questions, receive immediate feedback on their performance, and view their overall score upon completion.
 
-## Getting Started
+Key Features:
 
-First, run the development server:
+Question Generation: The application generates multiple-choice questions based on user-provided input text using natural language processing (NLP) techniques.
+Interactive Quiz Interface: Users can select their answers from a list of options displayed for each question.
+Immediate Feedback: Upon submitting their answers, users receive immediate feedback regarding their correctness and can view their total score.
+Answer Highlighting: After submitting, the correct answers are highlighted, providing users with a clear understanding of their performance.
+Scroll Functionality: The application smoothly scrolls to the top of the page after the user submits their answers, facilitating an organized user experience.
+Responsive Design: The interface is designed to be responsive and user-friendly across various devices and screen sizes.
+Technology Stack:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Frontend: React.js
+Backend: Node.js (for potential backend functionality like question generation, storage, etc.)
+APIs: Utilizes Axios for HTTP requests and potential natural language processing APIs
+Usage Scenario:
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+User Input: Users enter a block of text related to a particular topic or subject.
+Question Generation: The application generates multiple-choice questions based on the input text, presenting them to the user.
+Quiz Interaction: Users navigate through the questions, selecting their answers and moving to the next question.
+Submission and Feedback: After answering all questions, users submit their responses and instantly receive feedback on their performance, along with a total score.
+Scroll to Top: The application smoothly scrolls to the top of the page after the submission, allowing users to review their performance and answers.
