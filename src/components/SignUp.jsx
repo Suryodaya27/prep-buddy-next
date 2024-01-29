@@ -97,7 +97,7 @@ export function SignUp() {
         <CardHeader>
           <CardTitle>SignUp</CardTitle>
           <CardDescription>
-            Create your account here. Click create account when you're done.    
+            Create your account here. Click create account when you are done.    
           </CardDescription>
         </CardHeader>
         <form onSubmit={handleSubmit(onSubmit)}>
