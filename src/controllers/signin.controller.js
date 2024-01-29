@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 import { ApiError } from '@/lib/apiError';
 
 const prisma = new PrismaClient();
-const JWT_SECRET = process.env.JWT_SECRET;
+const JWT_SECRET = "suryodayapandey";
  export default async function signinController(email, password) {
     try {
 
