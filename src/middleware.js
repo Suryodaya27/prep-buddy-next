@@ -1,7 +1,7 @@
 import { NextResponse} from 'next/server';
 import cookie from 'cookie'; // you might need to install the 'cookie' package
 
-const REDIRECT_PATH =  process.env.REDIRECT_PATH || 'http://localhost:3000/auth';
+const REDIRECT_PATH =  process.env.REDIRECT_PATH ;
 export function middleware(req) {
     const token = req.cookies.get("token")
 
