@@ -5,7 +5,7 @@ export function Avatr() {
     <div>
       <Avatar>
         <AvatarImage src="https://github.com/shadcn.png" />
-        <AvatarFallback>U</AvatarFallback>
+        <AvatarFallback>SP</AvatarFallback>
       </Avatar>
     </div>
   );
