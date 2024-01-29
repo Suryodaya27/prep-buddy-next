@@ -12,12 +12,13 @@ import {
 } from "@/components/ui/drawer";
 
 import { Button } from "@/components/ui/button";
-
+import { TabsDemo } from "@/components/Auth";
 export default function SavedQuestion() {
   return (
     <div className="flex flex-col">
       <MainNav />
       <h1 className="text-xl text-center mt-5">Feature soon to be added ...</h1>
+      {/* <TabsDemo/> */}
       <Drawer>
         <DrawerTrigger className="my-5"><Button variant="outline">Previous inputs</Button></DrawerTrigger>
         <DrawerContent className="h-[400px]">

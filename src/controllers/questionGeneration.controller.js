@@ -1,8 +1,11 @@
 import { TextServiceClient } from '@google-ai/generativelanguage';
 import { GoogleAuth } from 'google-auth-library';
 
-const MODEL_NAME = 'models/text-bison-001';
-const API_KEY = 'AIzaSyDHy7OwLjyeqv7G3-KZ2QDMZ95FqOXeoJ0';
+const MODEL_NAME = process.env.MODEL_NAME;
+const API_KEY = process.env.API_KEY;
+
+// const MODEL_NAME = 'models/text-bison-001';
+// const API_KEY = 'AIzaSyDHy7OwLjyeqv7G3-KZ2QDMZ95FqOXeoJ0';
 
 const client = new TextServiceClient({
   authClient: new GoogleAuth().fromAPIKey(API_KEY),
