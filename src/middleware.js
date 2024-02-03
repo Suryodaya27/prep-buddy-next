@@ -1,5 +1,4 @@
 import { NextResponse} from 'next/server';
-import cookie from 'cookie'; // you might need to install the 'cookie' package
 
 const REDIRECT_PATH =  "https://prep-buddy-next.vercel.app/auth";
 // const REDIRECT_PATH =  "http://localhost:3000/auth";
