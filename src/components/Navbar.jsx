@@ -14,19 +14,19 @@ export function MainNav() {
   const pathname = usePathname();
 
   return (
-    <div className="flex flex-col items-center">
-      <div className="md:flex p-5 ">
-        <Link href="/" className="mr-6 flex items-center space-x-2">
+    <div className="flex flex-col">
+      <div className="flex p-3 justify-between lg:mx-20">
+        <Link href="/" className="flex items-center space-x-2">
           <span className="hidden font-bold text-black sm:inline-block">
             Prep-buddy
           </span>
         </Link>
-        <nav className="flex items-center justify-between gap-6 text-sm">
+        <nav className="flex items-center md:justify-between gap-6 md:gap-16 text-sm">
           <Link
             href="/"
             className={cn(
               "transition-colors hover:text-foreground/80",
-              pathname === "/" ? "text-foreground" : "text-foreground/60"
+              pathname === "/" ? "text-foreground border-b-2 border-foreground/80" : "text-foreground/60"
             )}
           >
             Generate Mcq
@@ -37,16 +37,17 @@ export function MainNav() {
             className={cn(
               "transition-colors hover:text-foreground/80",
               pathname === "/saved_questions"
-                ? "text-foreground"
+                ? "text-foreground border-b-2 border-foreground/80"
                 : "text-foreground/60"
             )}
           >
             Saved Questions
           </Link>
-          <div className="flex-grow">
+          
+        </nav>
+        <div>
             <DropMenu />
           </div>
-        </nav>
       </div>
       <Separator />
     </div>

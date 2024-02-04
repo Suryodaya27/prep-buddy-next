@@ -108,7 +108,7 @@ const McqInput = () => {
           <Button
             variant="outline"
             onClick={handleUsePreviousInput}
-            className="flex-grow py-5 my-1"
+            className="flex-grow py-5 my-1 w-2/5"
             disabled={!prevInputToggle}
           >
             Use Previous Input
@@ -117,7 +117,7 @@ const McqInput = () => {
             variant="default"
             onClick={handleSubmit}
             disabled={disable}
-            className="flex-grow py-5 my-1"
+            className="flex-grow py-5 my-1 w-3/5"
           >
             {loading ? "Generating..." : "Submit"}
           </Button>
