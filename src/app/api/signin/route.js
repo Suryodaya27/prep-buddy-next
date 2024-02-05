@@ -6,7 +6,6 @@ import {cookies} from "next/headers";
 export async function POST(request) {
     try {
         let { email, password } = await request.json();
-        console.log(email, password);
         const user = await signinController(email, password);
         const oneDay = 24 * 60 * 60 * 1000;
         cookies().set("token",user.token)
