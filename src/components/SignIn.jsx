@@ -68,7 +68,7 @@ export function SignIn() {
         setTimeout(() => {
           router.push("/");
           setIsSuccessAlertVisible(false);
-        }, 2000);
+        }, 500);
         setErrorText("");
         reset();
       }

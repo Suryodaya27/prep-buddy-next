@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useRef } from "react";
-import html2canvas from "html2canvas";
+import axios from "axios";
 import jsPDF from "jspdf";
 
 import { Button } from "@/components/ui/button";
@@ -9,6 +9,8 @@ import { Button } from "@/components/ui/button";
 const McqQuiz = ({ questions }) => {
   const length = questions.length;
   const answers = Array(length).fill("");
+  const save = Array(length).fill("Save");
+  const [savedQuestions, setSavedQuestions] = useState(save);
   const [selectedAnswer, setSelectedAnswer] = useState(answers);
   const [score, setScore] = useState(0);
   const [toggleScore, setToggleScore] = useState(false);
@@ -20,6 +22,25 @@ const McqQuiz = ({ questions }) => {
       const updatedAnswers = [...selectedAnswer];
       updatedAnswers[questionIndex] = optionIndex;
       setSelectedAnswer(updatedAnswers);
+    }
+  };
+
+  const handleSaveQuestion = async (question, answer, index) => {
+    try {
+      const response = await axios.post("/api/saveQuestion", {
+        question,
+        answer,
+      });
+
+      if (response.status === 201) {
+        const updatedSavedQuestions = [...savedQuestions];
+        updatedSavedQuestions[index - 1] = "Saved";
+        setSavedQuestions(updatedSavedQuestions);
+      } else {
+        // Handle error case
+      }
+    } catch (error) {
+      throw error;
     }
   };
 
@@ -73,55 +94,70 @@ const McqQuiz = ({ questions }) => {
             key={element.id}
             className="mb-4 p-6 outline-1 bg-white  hover:shadow-lg rounded-lg"
           >
-            <p className=" font-medium mb-2 font-sans text-lg">
-              {element.question}
-            </p>
+            <div className="flex flex-row justify-between">
+              <p className=" font-medium mb-2 font-sans text-lg">
+                {element.question}
+              </p>
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={() =>
+                  handleSaveQuestion(
+                    element.question,
+                    element.answer,
+                    element.id
+                  )
+                }
+                disabled={savedQuestions[element.id - 1] === "Saved"}
+              >
+                {savedQuestions[element.id - 1]}
+              </Button>
+            </div>
             <ul className="ml-6 space-y-2">
-              {/* <RadioGroup defaultValue="option-one"> */}
-                {element.options.map((option, optionIndex) => (
-
-                  <li key={optionIndex} className="mb-2">
-                    <label className="cursor-pointer text-black flex font-sans items-center">
-                      <input
-                        className="mr-2 cursor-pointer aspect-square h-4 w-4 rounded-full border border-primary text-primary shadow focus:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 checked:bg-gray-600 checked:border-transparent"
-                        type="radio"
-                        name={`question-${questionIndex}`}
-                        value={optionIndex}
-                        checked={selectedAnswer[questionIndex] === optionIndex}
-                        onChange={() =>
-                          handleAnswerChange(questionIndex, optionIndex)
-                        }
-                        disabled={answered}
-                      />
-                      <span
-                        className={`${
-                          answered && option === element.answer
-                            ? "text-red-500"
-                            : "text-gray-800"
-                        }`}
-                      >
-                        {option}
-                      </span>
-                    </label> 
-                  </li>
-                ))}
+              {element.options.map((option, optionIndex) => (
+                <li key={optionIndex} className="mb-2">
+                  <label className="cursor-pointer text-black flex font-sans items-center">
+                    <input
+                      className="mr-2 cursor-pointer aspect-square h-4 w-4 rounded-full border border-primary text-primary shadow focus:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 checked:bg-gray-600 checked:border-transparent"
+                      type="radio"
+                      name={`question-${questionIndex}`}
+                      value={optionIndex}
+                      checked={selectedAnswer[questionIndex] === optionIndex}
+                      onChange={() =>
+                        handleAnswerChange(questionIndex, optionIndex)
+                      }
+                      disabled={answered}
+                    />
+                    <span
+                      className={`${
+                        answered && option === element.answer
+                          ? "text-red-500"
+                          : "text-gray-800"
+                      }`}
+                    >
+                      {option}
+                    </span>
+                  </label>
+                </li>
+              ))}
               {/* </RadioGroup> */}
             </ul>
           </li>
         ))}
       </ul>
       <div className="flex space-x-4 mt-8 mb-5">
-        <Button variant="default"
+        <Button
+          variant="default"
           onClick={handleSubmit}
           className="flex-grow"
           disabled={answered}
         >
           Submit
         </Button>
-        
 
         {toggleScore && (
-          <Button variant="outline"
+          <Button
+            variant="outline"
             onClick={() =>
               scoreRef.current.scrollIntoView({ behavior: "smooth" })
             }
@@ -129,15 +165,14 @@ const McqQuiz = ({ questions }) => {
           >
             Check Score
           </Button>
-          
         )}
-        <Button variant="destructive"
+        <Button
+          variant="destructive"
           onClick={handleSaveAsPDF}
           className="flex-grow"
         >
           Save as PDF
         </Button>
-        
       </div>
     </div>
   );
