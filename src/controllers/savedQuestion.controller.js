@@ -14,6 +14,10 @@ async function getFromDatabase(token) {
             userId: userId,
         },
         });
+        // sort result on basis of createdAt , latest first
+        result.sort((a, b) => {
+          return new Date(b.createdAt) - new Date(a.createdAt);
+        });
         return result;
     } catch (error) {
         throw new ApiError(
