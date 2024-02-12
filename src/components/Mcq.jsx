@@ -3,6 +3,8 @@
 import React, { useState, useRef } from "react";
 import axios from "axios";
 import jsPDF from "jspdf";
+import { driver } from 'driver.js';
+import 'driver.js/dist/driver.css'; 
 
 import { Button } from "@/components/ui/button";
 
@@ -70,8 +72,55 @@ const McqQuiz = ({ questions }) => {
     pdf.save("mcq-quiz.pdf");
   };
 
+  // driver.js content
+  // const mcqWorking = driver({
+  //   showProgress: true,
+  //   steps:[
+  //     {
+  //       element: '#mcq-quiz-content',
+  //       popover: {
+  //         title: 'Generated Questions',
+  //         description: 'Here are the questions generated from the input text.'
+  //       }
+  //     },
+  //     {
+  //       element: '#mcq-quiz-content li:first-child',
+  //       popover: {
+  //         title: 'Question',
+  //         description: 'This is the first question. Select the correct answer and click on the submit button. Save the question to your saved questions.'
+  //       }
+  //     },
+  //     {
+  //       element: '#mcq-quiz-submit',
+  //       popover: {
+  //         title: 'Submit',
+  //         description: 'Click on the submit button to submit your answers and check score button will appear.',
+  //         position: 'top'
+  //       }
+  //     },
+  //     {
+  //       element: '#mcq-quiz-saveAsPdf',
+  //       popover: {
+  //         title: 'Save as PDF',
+  //         description: 'Click on the save as PDF button to save the questions and answers as a PDF.',
+  //         position: 'top'
+  //       }
+  //     }
+  //   ] 
+  // })
+  // // const startFunctioning = () => {
+  // //   console.log("mcq called")
+  // //   mcqWorking.drive();
+  // // }
+  // function startFunctioning() {
+  //   mcqWorking.drive();
+  // }
+
   return (
     <div className="mt-3 mb-10 bg-gray-50 rounded-xl shadow-md p-6 text-black mx-auto">
+      {/* <Button variant="default" onClick={startFunctioning} className="mb-4">
+        How it works
+      </Button> */}
       {toggleScore && (
         <div className="pb-10">
           <div
@@ -92,6 +141,7 @@ const McqQuiz = ({ questions }) => {
         {questions.map((element, questionIndex) => (
           <li
             key={element.id}
+          
             className="mb-4 p-6 outline-1 bg-white  hover:shadow-lg rounded-lg"
           >
             <div className="flex flex-row justify-between">
@@ -151,6 +201,7 @@ const McqQuiz = ({ questions }) => {
           onClick={handleSubmit}
           className="flex-grow"
           disabled={answered}
+          id="mcq-quiz-submit"
         >
           Submit
         </Button>
@@ -170,6 +221,7 @@ const McqQuiz = ({ questions }) => {
           variant="destructive"
           onClick={handleSaveAsPDF}
           className="flex-grow"
+          id="mcq-quiz-saveAsPdf"
         >
           Save as PDF
         </Button>
