@@ -65,8 +65,8 @@ export default function SavedQuestion() {
                     <CardTitle>{result.question}</CardTitle>
 
                     <Button
-                      variant="destructive"
-                      size="icon"
+                      variant="primary"
+                      size="sm"
                       onClick={() => handleDelete(result.id)}
                     >
                       <TrashIcon />

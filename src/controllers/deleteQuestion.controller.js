@@ -2,9 +2,9 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 import { ApiError } from "@/lib/apiError";
 
-export default async function deleteQuestion(questionId) {
+export default async function deleteQuestion(questionId,token) {
+
   try {
-    // console.log("questionId", questionId);
     const result = await prisma.questions.delete({
       where: {
         id: questionId,

@@ -10,7 +10,8 @@ async function saveToDatabase(question, answer, token) {
     const decodedToken = jwt.verify(token, JWT_SECRET);
     // console.log(decodedToken);
     const userId = decodedToken.userId;
-
+    
+    
     const result = await prisma.questions.create({
       data: {
         question,

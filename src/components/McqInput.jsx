@@ -25,6 +25,7 @@ const McqInput = () => {
   const [questions, setQuestions] = useState([]);
   const [disable, setDisable] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [searched, setSearched] = useState(false);
   const [prevInput, setPrevInput] = useState("");
   const [prevInputToggle, setPrevInputToggle] = useState(false);
   const [type, setType] = useState("Text");
@@ -64,6 +65,7 @@ const McqInput = () => {
 
       if (response.status === 200) {
         setQuestions(response.data.questions);
+        setSearched(true);
         setLoading(false);
         setDisable(false);
         // Save the current input text to local storage
@@ -121,11 +123,12 @@ const McqInput = () => {
         },
       },
       {
-        popover:{
+        popover: {
           title: "After submitting mcqs will popup",
-          description:" You can assess yourself by clicking correct options and submitting the answers from bottom. Save questions as pdf or save particular question for future references."
+          description:
+            " You can assess yourself by clicking correct options and submitting the answers from bottom. Save questions as pdf or save particular question for future references.",
         },
-      }
+      },
     ],
   });
 
@@ -197,7 +200,11 @@ const McqInput = () => {
         </div>
         <Separator className="my-5 mx-5 m-auto" />
         {loading && <Loader />}
-
+        {questions.length == 0 && searched && !loading && (
+          <div className="text-center mt-5 text-2xl text-gray-500">
+            No questions to display , Please try again!!
+          </div>
+        )}
         {questions.length > 0 && <McqQuiz questions={questions} />}
       </div>
     </div>

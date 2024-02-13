@@ -1,8 +1,9 @@
 import { TextServiceClient } from '@google-ai/generativelanguage';
 import { GoogleAuth } from 'google-auth-library';
-
+import redis from '@/lib/redis';
 // const MODEL_NAME = process.env.MODEL_NAME;
 // const API_KEY = process.env.API_KEY;
+
 
 const MODEL_NAME = 'models/text-bison-001';
 const API_KEY = 'AIzaSyDHy7OwLjyeqv7G3-KZ2QDMZ95FqOXeoJ0';
@@ -21,6 +22,14 @@ function shuffleArray(array) {
   }
   
   async function generateRephrasedOutput(para) {
+    // find if rephrased output for para is present in redis cache or not
+    const res = await redis.get(para);
+    
+    if(res){
+      console.log('rephrased output from redis cache')
+      // console.log(res)
+      return res;
+    }
     const prompt = `Given paragraph ${para}, rephrase the paragraph`;
     try {
       const result = await client.generateText({
@@ -30,10 +39,14 @@ function shuffleArray(array) {
         },
       });
       const output = JSON.stringify(result[0]?.candidates?.[0]?.output, null, 2);
+      // redis.set(para,output)
+      redis.set(para, output, 'EX', 86400);
       return output;
     } catch (error) {
       console.error(error);
       return null;
+    }finally{
+      redis.quit();
     }
   }
   
@@ -169,9 +182,3 @@ export default async function generate(inputParagraph, noOfQuestions) {
   }
 }
 
-
-// how to import a function from another file in nextjs
-// import { generate } from '@/controllers/questionGeneration.controller';
-
-// how to use generate function
-// const questions = await generate(req, res);
