@@ -29,6 +29,7 @@ const McqInput = () => {
   const [prevInput, setPrevInput] = useState("");
   const [prevInputToggle, setPrevInputToggle] = useState(false);
   const [type, setType] = useState("Text");
+  const [pdfFile, setPdfFile] = useState(null);
 
   useEffect(() => {
     const previousInput = localStorage.getItem("previousInput");
@@ -47,6 +48,25 @@ const McqInput = () => {
     setInputParagraph(prevInput);
   };
 
+  const handleFileUpload = async (event) => {
+    setPdfFile(event.target.files[0]);
+    try{
+      const file = event.target.files[0];
+      const formData = new FormData();
+      formData.append('file', file);
+  
+      const parsedData = await axios.post("/api/parse", formData);
+      // console.log(parsedData)
+      if(parsedData.status === 200){
+        setInputParagraph(parsedData.data.text);
+      }
+    }catch(error){
+      console.log(error);
+    }
+    
+  };
+
+
   const handleSubmit = async () => {
     try {
       setLoading(true);
@@ -58,6 +78,19 @@ const McqInput = () => {
         });
         setInputParagraph(scrapedData.data.scrapedData.scrapedData);
       }
+      
+      // if (type === "Pdf") {
+      //   const formData = new FormData();
+      //   formData.append('file', pdfFile);
+      //   const parsedData = await axios.post("/api/parse", formData);
+      //   console.log(parsedData);
+      //   console.log(typeof(parsedData.data.text));
+      //   if (parsedData.status === 200) {
+      //     setInputParagraph(parsedData.data.text);
+      //     console.log(inputParagraph); // The updated value of inputParagraph
+      //   }
+      // }
+
       const response = await axios.post("/api/generate", {
         inputParagraph: inputParagraph,
         noOfQuestions: noOfQuestions,
@@ -83,19 +116,19 @@ const McqInput = () => {
     showProgress: true, // Because everyone loves progress bars!
     steps: [
       {
-        element: "#input-text",
-        popover: {
-          title: "Input Text",
-          description:
-            "Text can be entered here for generating MCQs. You can also select the type of input from the dropdown.",
-        },
-      },
-      {
         element: "#type",
         popover: {
           title: "Type",
           description:
-            "Select the type of input from the dropdown. It can be either text or link.",
+            "Select the type of input from the dropdown. It can be either text, link or pdf.",
+        },
+      },
+      {
+        element: "#input-text",
+        popover: {
+          title: "Input Text",
+          description:
+            "Text can be entered here for generating MCQs. If you select link, then enter the link here. If you select pdf, then upload the pdf file here.",
         },
       },
       {
@@ -123,6 +156,14 @@ const McqInput = () => {
         },
       },
       {
+        element: "#reset",
+        popover: {
+          title: "Reset",
+          description:
+            "Click here to reset the input fields and start over.",
+        },
+      },
+      {
         popover: {
           title: "After submitting mcqs will popup",
           description:
@@ -132,31 +173,38 @@ const McqInput = () => {
     ],
   });
 
-  // const startDemo = () => {
-  //   console.log("mcq input called")
-  //   driverObj.drive();
-  // };
   function startDemo() {
     driverObj.drive();
   }
+
+  // adding reset button functionality
+  const reset = () => {
+    setInputParagraph("");
+    setNoOfQuestions(0);
+    setQuestions([]);
+    setDisable(false);
+    setSearched(false);
+    setPrevInputToggle(false);
+    const previousInput = localStorage.getItem("previousInput");
+    if (previousInput) {
+      setPrevInput(previousInput);
+      setPrevInputToggle(true);
+    }
+  }
+
   return (
     <div>
       <div className="max-w-3xl mx-auto">
-        <div className="flex ml-4 justify-start">
+        <div className="flex ml-4 justify-between mr-4">
           <Button variant="default" onClick={startDemo} className="mt-5 ">
             Start Demo
+          </Button>
+          <Button id="reset" variant="destructive" onClick={reset} className="mt-5 ml-5">
+            Reset
           </Button>
         </div>
         <div className="flex flex-col items-center justify-center rounded-md p-4 space-y-4">
           <div className="flex w-full gap-2">
-            <Input
-              type="text"
-              value={inputParagraph}
-              onChange={handleInputChange}
-              className=" w-3/4 md:w-5/6 border border-gray-300 rounded-md py-5 my-1 px-3 focus:outline-none focus:border-blue-500 bg-white text-black"
-              placeholder="Enter Input and please select Type from dropdown"
-              id="input-text"
-            />
             {/*add drop down for selection of either entering text or link */}
             <Select onValueChange={(e) => setType(e)}>
               <SelectTrigger id="type" className=" my-1 py-5 w-1/4 md:w-1/6">
@@ -165,8 +213,28 @@ const McqInput = () => {
               <SelectContent>
                 <SelectItem value="Text">Text</SelectItem>
                 <SelectItem value="Link">Link</SelectItem>
+                <SelectItem value="Pdf">Pdf</SelectItem>
               </SelectContent>
             </Select>
+            {(type=="Text" || type=="Link") && (<Input
+              type="text"
+              value={inputParagraph}
+              onChange={handleInputChange}
+              className=" w-3/4 md:w-5/6 border border-gray-300 rounded-md py-5 my-1 px-3 focus:outline-none focus:border-blue-500 bg-white text-black"
+              placeholder="Enter Input and please select Type from dropdown"
+              id="input-text"
+            />)}
+            {
+              type=="Pdf" && (
+                <Input
+              type="file"
+              onChange={handleFileUpload }
+              className=" w-3/4 md:w-5/6 border border-gray-300 rounded-md py-5 my-1 px-3 focus:outline-none focus:border-blue-500 bg-white text-black"
+              placeholder=""
+              id="input-text"
+              />)
+            }
+            
           </div>
           <Input
             type="number"
