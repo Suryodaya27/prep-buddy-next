@@ -50,22 +50,20 @@ const McqInput = () => {
 
   const handleFileUpload = async (event) => {
     setPdfFile(event.target.files[0]);
-    try{
+    try {
       const file = event.target.files[0];
       const formData = new FormData();
-      formData.append('file', file);
-  
+      formData.append("file", file);
+
       const parsedData = await axios.post("/api/parse", formData);
       // console.log(parsedData)
-      if(parsedData.status === 200){
+      if (parsedData.status === 200) {
         setInputParagraph(parsedData.data.text);
       }
-    }catch(error){
+    } catch (error) {
       console.log(error);
     }
-    
   };
-
 
   const handleSubmit = async () => {
     try {
@@ -78,7 +76,7 @@ const McqInput = () => {
         });
         setInputParagraph(scrapedData.data.scrapedData.scrapedData);
       }
-      
+
       // if (type === "Pdf") {
       //   const formData = new FormData();
       //   formData.append('file', pdfFile);
@@ -159,8 +157,7 @@ const McqInput = () => {
         element: "#reset",
         popover: {
           title: "Reset",
-          description:
-            "Click here to reset the input fields and start over.",
+          description: "Click here to reset the input fields and start over.",
         },
       },
       {
@@ -179,8 +176,9 @@ const McqInput = () => {
 
   // adding reset button functionality
   const reset = () => {
+    setLoading(false);
     setInputParagraph("");
-    setNoOfQuestions(0);
+    // setNoOfQuestions(0);
     setQuestions([]);
     setDisable(false);
     setSearched(false);
@@ -190,7 +188,7 @@ const McqInput = () => {
       setPrevInput(previousInput);
       setPrevInputToggle(true);
     }
-  }
+  };
 
   return (
     <div>
@@ -199,7 +197,12 @@ const McqInput = () => {
           <Button variant="default" onClick={startDemo} className="mt-5 ">
             Start Demo
           </Button>
-          <Button id="reset" variant="destructive" onClick={reset} className="mt-5 ml-5">
+          <Button
+            id="reset"
+            variant="destructive"
+            onClick={reset}
+            className="mt-5 ml-5"
+          >
             Reset
           </Button>
         </div>
@@ -216,25 +219,25 @@ const McqInput = () => {
                 <SelectItem value="Pdf">Pdf</SelectItem>
               </SelectContent>
             </Select>
-            {(type=="Text" || type=="Link") && (<Input
-              type="text"
-              value={inputParagraph}
-              onChange={handleInputChange}
-              className=" w-3/4 md:w-5/6 border border-gray-300 rounded-md py-5 my-1 px-3 focus:outline-none focus:border-blue-500 bg-white text-black"
-              placeholder="Enter Input and please select Type from dropdown"
-              id="input-text"
-            />)}
-            {
-              type=="Pdf" && (
-                <Input
-              type="file"
-              onChange={handleFileUpload }
-              className=" w-3/4 md:w-5/6 border border-gray-300 rounded-md py-5 my-1 px-3 focus:outline-none focus:border-blue-500 bg-white text-black"
-              placeholder=""
-              id="input-text"
-              />)
-            }
-            
+            {(type == "Text" || type == "Link") && (
+              <Input
+                type="text"
+                value={inputParagraph}
+                onChange={handleInputChange}
+                className=" w-3/4 md:w-5/6 border border-gray-300 rounded-md py-5 my-1 px-3 focus:outline-none focus:border-blue-500 bg-white text-black"
+                placeholder="Enter Input and please select Type from dropdown"
+                id="input-text"
+              />
+            )}
+            {type == "Pdf" && (
+              <Input
+                type="file"
+                onChange={handleFileUpload}
+                className=" w-3/4 md:w-5/6 border border-gray-300 rounded-md py-5 my-1 px-3 focus:outline-none focus:border-blue-500 bg-white text-black"
+                placeholder=""
+                id="input-text"
+              />
+            )}
           </div>
           <Input
             type="number"
