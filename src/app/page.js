@@ -1,13 +1,12 @@
-import McqInput from "@/components/McqInput"
-import { MainNav } from "@/components/Navbar"
-
-
+import Home_hero from "@/components/Home_hero";
+import { MainNav } from "@/components/Navbar";
 
 export default function Home() {
   return (
-    <div>
-      <MainNav/>
-      <McqInput/>
-    </div>
-  )
+    <>
+      <MainNav />
+      <Home_hero />
+    </>
+  );
 }
+

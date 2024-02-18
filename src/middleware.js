@@ -6,7 +6,7 @@ export function middleware(req) {
     const token = req.cookies.get("token")
 
   const { pathname } = req.nextUrl;
-  const protectedRoutes = ['/', '/saved_questions'];
+  const protectedRoutes = ['/', '/saved_questions','/generate_mcq'];
 
   if (!token && protectedRoutes.includes(pathname)) {
     return NextResponse.redirect(REDIRECT_PATH);

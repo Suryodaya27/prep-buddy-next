@@ -23,10 +23,10 @@ export function MainNav() {
         </Link>
         <nav className="flex items-center md:justify-between gap-6 md:gap-16 text-sm">
           <Link
-            href="/"
+            href="/generate_mcq"
             className={cn(
               "transition-colors hover:text-foreground/80",
-              pathname === "/" ? "text-foreground border-b-2 border-foreground/80" : "text-foreground/60"
+              pathname === "/generate_mcq" ? "text-foreground border-b-2 border-foreground/80" : "text-foreground/60"
             )}
           >
             Generate Mcq
