@@ -3,12 +3,22 @@
 import React, { useState, useRef } from "react";
 import axios from "axios";
 import jsPDF from "jspdf";
-import { driver } from 'driver.js';
-import 'driver.js/dist/driver.css'; 
-
+import "driver.js/dist/driver.css";
+import { useToast } from "@/components/ui/use-toast"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
+import { DropdownMenuIcon } from "@radix-ui/react-icons";
 
 const McqQuiz = ({ questions }) => {
+  const { toast } = useToast()
+  
   const length = questions.length;
   const answers = Array(length).fill("");
   const save = Array(length).fill("Save");
@@ -29,6 +39,7 @@ const McqQuiz = ({ questions }) => {
 
   const handleSaveQuestion = async (question, answer, index) => {
     try {
+      // console.log("clicked")
       const response = await axios.post("/api/saveQuestion", {
         question,
         answer,
@@ -38,6 +49,10 @@ const McqQuiz = ({ questions }) => {
         const updatedSavedQuestions = [...savedQuestions];
         updatedSavedQuestions[index - 1] = "Saved";
         setSavedQuestions(updatedSavedQuestions);
+        toast({
+          title: "Question saved successfully!!",
+          description: "View question in your saved questions.",
+        })
       } else {
         // Handle error case
       }
@@ -106,7 +121,7 @@ const McqQuiz = ({ questions }) => {
   //         position: 'top'
   //       }
   //     }
-  //   ] 
+  //   ]
   // })
   // // const startFunctioning = () => {
   // //   console.log("mcq called")
@@ -141,14 +156,13 @@ const McqQuiz = ({ questions }) => {
         {questions.map((element, questionIndex) => (
           <li
             key={element.id}
-          
             className="mb-4 p-6 outline-1 bg-white  hover:shadow-lg rounded-lg"
           >
             <div className="flex flex-row justify-between">
               <p className=" font-medium mb-2 font-sans text-lg">
                 {element.question}
               </p>
-              <Button
+              {/* <Button
                 size="sm"
                 variant="outline"
                 onClick={() =>
@@ -161,7 +175,30 @@ const McqQuiz = ({ questions }) => {
                 disabled={savedQuestions[element.id - 1] === "Saved"}
               >
                 {savedQuestions[element.id - 1]}
-              </Button>
+              </Button> */}
+              {/* dropdown for saving options */}
+              <DropdownMenu>
+                <DropdownMenuTrigger><DropdownMenuIcon/></DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  <DropdownMenuLabel>
+                    Options
+                  </DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem
+                    onClick={() =>
+                      handleSaveQuestion(
+                        element.question,
+                        element.answer,
+                        element.id
+                      )
+                    }
+                  >
+                    {savedQuestions[element.id - 1]}
+                  </DropdownMenuItem>
+                  
+                  <DropdownMenuItem>Create Quiz</DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
             <ul className="ml-6 space-y-2">
               {element.options.map((option, optionIndex) => (

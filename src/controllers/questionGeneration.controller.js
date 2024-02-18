@@ -22,14 +22,14 @@ function shuffleArray(array) {
   }
   
   async function generateRephrasedOutput(para) {
-    // find if rephrased output for para is present in redis cache or not
-    const res = await redis.get(para);
+    // // find if rephrased output for para is present in redis cache or not
+    // const res = await redis.get(para);
     
-    if(res){
-      console.log('rephrased output from redis cache')
-      // console.log(res)
-      return res;
-    }
+    // if(res){
+    //   console.log('rephrased output from redis cache')
+    //   // console.log(res)
+    //   return res;
+    // }
     const prompt = `Given paragraph ${para}, rephrase the paragraph`;
     try {
       const result = await client.generateText({
@@ -40,14 +40,13 @@ function shuffleArray(array) {
       });
       const output = JSON.stringify(result[0]?.candidates?.[0]?.output, null, 2);
       // redis.set(para,output)
-      redis.set(para, output, 'EX', 86400);
+      // redis.set(para, output, 'EX', 86400);
       return output;
     } catch (error) {
       console.error(error);
       return null;
-    }finally{
-      redis.quit();
     }
+    
   }
   
   async function splitSentences(text, noOfQuestions) {
