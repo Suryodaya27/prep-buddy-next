@@ -2,7 +2,7 @@
 
 Live Link: https://prep-buddy-next.vercel.app
 
-YouTube Demo: https://youtu.be/DJbpZsGdnKE
+YouTube Demo: [https://youtu.be/DJbpZsGdnKE](https://youtu.be/Eusu3APMdTI)
 
 The Interactive MCQ Quiz Application is a web-based platform designed to offer users an engaging way to test their knowledge through a multiple-choice question format. The application provides a user-friendly interface where users can answer a set of generated questions, receive immediate feedback on their performance, and view their overall score upon completion.
 
