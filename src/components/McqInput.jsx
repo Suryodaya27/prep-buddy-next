@@ -9,6 +9,7 @@ import "driver.js/dist/driver.css";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
+import { Textarea } from "@/components/ui/textarea";
 import {
   Select,
   SelectContent,
@@ -219,13 +220,24 @@ const McqInput = () => {
                 <SelectItem value="Pdf">Pdf</SelectItem>
               </SelectContent>
             </Select>
-            {(type == "Text" || type == "Link") && (
+            {
+              (type == "Text") && (
+                <Textarea
+                  value={inputParagraph}
+                  onChange={handleInputChange}
+                  className=" w-3/4 md:w-5/6 border border-gray-300 rounded-md py-5 my-1 px-3 focus:outline-none focus:border-blue-500 bg-white text-black"
+                  placeholder="Enter Data..."
+                  id="input-text"
+                />
+              )
+            }
+            {( type == "Link") && (
               <Input
                 type="text"
                 value={inputParagraph}
                 onChange={handleInputChange}
                 className=" w-3/4 md:w-5/6 border border-gray-300 rounded-md py-5 my-1 px-3 focus:outline-none focus:border-blue-500 bg-white text-black"
-                placeholder="Enter Input and please select Type from dropdown"
+                placeholder="Enter url..."
                 id="input-text"
               />
             )}
