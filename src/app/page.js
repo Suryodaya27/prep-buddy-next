@@ -4,7 +4,7 @@ import { MainNav } from "@/components/Navbar";
 export default function Home() {
   return (
     <>
-      <MainNav />
+      {/* <MainNav /> */}
       <Home_hero />
     </>
   );

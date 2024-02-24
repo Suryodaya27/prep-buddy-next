@@ -14,6 +14,7 @@ export function MainNav() {
   const pathname = usePathname();
 
   return (
+    pathname !== "/auth" && (
     <div className="flex flex-col">
       <div className="flex p-3 justify-between lg:mx-20">
         <Link href="/" className="flex items-center space-x-2">
@@ -52,5 +53,6 @@ export function MainNav() {
       </div>
       <Separator />
     </div>
+    )
   );
 }

@@ -6,7 +6,7 @@ import { MainNav } from "@/components/Navbar"
 export default function Generate() {
   return (
     <div>
-      <MainNav/>
+      {/* <MainNav/> */}
       <McqInput/>
     </div>
   )

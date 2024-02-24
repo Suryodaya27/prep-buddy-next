@@ -44,7 +44,7 @@ export default function SavedQuestion() {
 
   return (
     <div className="flex flex-col">
-      <MainNav />
+      {/* <MainNav /> */}
 
       {loading ? (
         <div className="py-5 mx-auto">
