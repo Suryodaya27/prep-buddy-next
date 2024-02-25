@@ -43,7 +43,7 @@ export default function SavedQuestion() {
   }
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col scroll-smooth">
       {/* <MainNav /> */}
 
       {loading ? (

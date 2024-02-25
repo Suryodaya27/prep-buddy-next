@@ -5,7 +5,7 @@ import { MainNav } from "@/components/Navbar"
 
 export default function Generate() {
   return (
-    <div>
+    <div className="scroll-smooth">
       {/* <MainNav/> */}
       <McqInput/>
     </div>

@@ -30,7 +30,8 @@ function shuffleArray(array) {
     //   // console.log(res)
     //   return res;
     // }
-    const prompt = `Given paragraph ${para}, rephrase the paragraph`;
+    // const prompt = `Given paragraph ${para}, rephrase the paragraph and return as string and no extra characters or format. There should only be theory , no questions ,titles or subtitles.`;
+    const prompt = `Given the input data: ${para}, please rephrase the content and return it as a plain string. The rephrased content should not contain any questions, titles, or subtitles. It should only contain the rephrased text. Please only keep text and remove any extra characters or formatting.`
     try {
       const result = await client.generateText({
         model: MODEL_NAME,
@@ -41,6 +42,7 @@ function shuffleArray(array) {
       const output = JSON.stringify(result[0]?.candidates?.[0]?.output, null, 2);
       // redis.set(para,output)
       // redis.set(para, output, 'EX', 86400);
+      console.log('rephrased output from api : ' , output)
       return output;
     } catch (error) {
       console.error(error);
@@ -52,7 +54,9 @@ function shuffleArray(array) {
   async function splitSentences(text, noOfQuestions) {
     const sentencePattern = /([.!?])\s+(?=[A-Z])/g;
     const sentences = await text.split(sentencePattern);
+    // console.log('sentences:', sentences);
     const shuffledSentences = shuffleArray(sentences.filter(sentence => sentence !== '.').map(sentence => sentence.replace(/"/g, '')));
+    console.log('shuffledSentences:', shuffledSentences);
     if(noOfQuestions < shuffledSentences.length) {
       return shuffledSentences.slice(0, noOfQuestions);
     }
