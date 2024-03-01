@@ -42,7 +42,7 @@ function shuffleArray(array) {
       const output = JSON.stringify(result[0]?.candidates?.[0]?.output, null, 2);
       // redis.set(para,output)
       // redis.set(para, output, 'EX', 86400);
-      console.log('rephrased output from api : ' , output)
+      // console.log('rephrased output from api : ' , output)
       return output;
     } catch (error) {
       console.error(error);
@@ -56,7 +56,7 @@ function shuffleArray(array) {
     const sentences = await text.split(sentencePattern);
     // console.log('sentences:', sentences);
     const shuffledSentences = shuffleArray(sentences.filter(sentence => sentence !== '.').map(sentence => sentence.replace(/"/g, '')));
-    console.log('shuffledSentences:', shuffledSentences);
+    // console.log('shuffledSentences:', shuffledSentences);
     if(noOfQuestions < shuffledSentences.length) {
       return shuffledSentences.slice(0, noOfQuestions);
     }

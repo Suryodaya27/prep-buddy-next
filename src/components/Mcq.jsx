@@ -15,11 +15,15 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { DropdownMenuIcon } from "@radix-ui/react-icons";
+import useTimer from "@/app/hooks/useTimer";
 
-const McqQuiz = ({ questions }) => {
+const McqQuiz = ({ questions,seconds,stopTimer }) => {
+
   const { toast } = useToast()
-  
+  // const { seconds, running, startTimer, stopTimer, resetTimer } = useTimer();
+
   const length = questions.length;
+
   const answers = Array(length).fill("");
   const save = Array(length).fill("Save");
   const [savedQuestions, setSavedQuestions] = useState(save);
@@ -29,6 +33,13 @@ const McqQuiz = ({ questions }) => {
   const [answered, setAnswered] = useState(false);
   const scoreRef = useRef(null);
 
+
+  // start timer if length>0
+  // if (length > 0) {
+  //   startTimer();
+  // }
+  // console.log(typeof seconds)
+  // console.log("seconds",seconds)
   const handleAnswerChange = (questionIndex, optionIndex) => {
     if (!answered) {
       const updatedAnswers = [...selectedAnswer];
@@ -69,6 +80,7 @@ const McqQuiz = ({ questions }) => {
           newScore++;
         }
       }
+      stopTimer();
       setScore(newScore);
       setToggleScore(true);
       setAnswered(true);
@@ -146,6 +158,10 @@ const McqQuiz = ({ questions }) => {
             <p className=" text-lg">
               You scored <span className="text-green-500">{score}</span> out of{" "}
               {length}
+            </p>
+            <p className=" text-lg">
+              Time taken: <span className="text-green-500">{seconds}</span>{" "}
+              seconds
             </p>
           </div>
         </div>

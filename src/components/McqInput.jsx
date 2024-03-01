@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/select";
 
 import Loader from "./Loader";
+import useTimer from "@/app/hooks/useTimer";
 
 const McqInput = () => {
   const [inputParagraph, setInputParagraph] = useState("");
@@ -31,6 +32,7 @@ const McqInput = () => {
   const [prevInputToggle, setPrevInputToggle] = useState(false);
   const [type, setType] = useState("Text");
   const [pdfFile, setPdfFile] = useState(null);
+  const { seconds, running, startTimer, stopTimer, resetTimer } = useTimer();
 
   useEffect(() => {
     const previousInput = localStorage.getItem("previousInput");
@@ -78,24 +80,14 @@ const McqInput = () => {
         setInputParagraph(scrapedData.data.scrapedData.scrapedData);
       }
 
-      // if (type === "Pdf") {
-      //   const formData = new FormData();
-      //   formData.append('file', pdfFile);
-      //   const parsedData = await axios.post("/api/parse", formData);
-      //   console.log(parsedData);
-      //   console.log(typeof(parsedData.data.text));
-      //   if (parsedData.status === 200) {
-      //     setInputParagraph(parsedData.data.text);
-      //     console.log(inputParagraph); // The updated value of inputParagraph
-      //   }
-      // }
-
       const response = await axios.post("/api/generate", {
         inputParagraph: inputParagraph,
         noOfQuestions: noOfQuestions,
       });
 
       if (response.status === 200) {
+        startTimer();
+        console.log(seconds);
         setQuestions(response.data.questions);
         setSearched(true);
         setLoading(false);
@@ -288,7 +280,7 @@ const McqInput = () => {
             No questions to display , Please try again!!
           </div>
         )}
-        {questions.length > 0 && <McqQuiz questions={questions} />}
+        {questions.length > 0 && <McqQuiz questions={questions} seconds={seconds} stopTimer={stopTimer}/>}
       </div>
     </div>
   );
