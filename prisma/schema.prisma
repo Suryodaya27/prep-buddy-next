@@ -11,18 +11,19 @@ datasource db {
 }
 
 model User {
-  id       String   @map("_id") @id @default(cuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  email     String   @unique
-  password  String
-  questions Questions[]
+  id         String       @id @default(cuid()) @map("_id")
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+  email      String       @unique
+  password   String
+  questions  Questions[]
   inputTexts InputTexts[]
-  quizes    Quizes[]
+  quizes     Quizes[]
+  results    Result[]
 }
 
 model Questions {
-  id       String   @map("_id") @id @default(cuid())
+  id        String   @id @default(cuid()) @map("_id")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   question  String
@@ -32,7 +33,7 @@ model Questions {
 }
 
 model InputTexts {
-  id       String   @map("_id") @id @default(cuid())
+  id        String   @id @default(cuid()) @map("_id")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   text      String
@@ -41,21 +42,31 @@ model InputTexts {
 }
 
 model Quizes {
-  id     String   @map("_id") @id @default(cuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  userId String
-  user   User     @relation(fields: [userId], references: [id])
-  title String
+  id        String          @id @default(cuid()) @map("_id")
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @updatedAt
+  userId    String
+  user      User            @relation(fields: [userId], references: [id])
+  title     String
   questions QuizQuestions[]
 }
 
 model QuizQuestions {
-  id        String   @map("_id") @id @default(cuid())
+  id        String   @id @default(cuid()) @map("_id")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   quizId    String
   quiz      Quizes   @relation(fields: [quizId], references: [id])
   question  String
   answer    String
+}
+
+model Result {
+  id        String   @id @default(cuid()) @map("_id")
+  createdAt DateTime @default(now())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  score     Int
+  total     Int
+  time      Int
 }

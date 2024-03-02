@@ -19,6 +19,9 @@ export function DropMenu() {
         Cookies.remove('token');
         window.location.reload();
     }
+    function navigateToProfile() {
+        router.push('/profile');
+    }
   return (
     <div>
       <DropdownMenu>
@@ -26,7 +29,7 @@ export function DropMenu() {
           <Avatr />
         </DropdownMenuTrigger>
         <DropdownMenuContent>
-          <DropdownMenuLabel>My Account</DropdownMenuLabel>
+          <DropdownMenuLabel onClick={navigateToProfile}>My Account</DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={handleLogout}>Logout</DropdownMenuItem>
         </DropdownMenuContent>

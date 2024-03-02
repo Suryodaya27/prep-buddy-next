@@ -280,7 +280,7 @@ const McqInput = () => {
             No questions to display , Please try again!!
           </div>
         )}
-        {questions.length > 0 && <McqQuiz questions={questions} seconds={seconds} stopTimer={stopTimer}/>}
+        {questions.length > 0 && <McqQuiz questions={questions} seconds={seconds} stopTimer={stopTimer} resetTimer={resetTimer}/>}
       </div>
     </div>
   );

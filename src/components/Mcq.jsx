@@ -17,7 +17,7 @@ import { Button } from "@/components/ui/button";
 import { DropdownMenuIcon } from "@radix-ui/react-icons";
 import useTimer from "@/app/hooks/useTimer";
 
-const McqQuiz = ({ questions,seconds,stopTimer }) => {
+const McqQuiz = ({ questions,seconds,stopTimer,resetTimer }) => {
 
   const { toast } = useToast()
   // const { seconds, running, startTimer, stopTimer, resetTimer } = useTimer();
@@ -31,6 +31,7 @@ const McqQuiz = ({ questions,seconds,stopTimer }) => {
   const [score, setScore] = useState(0);
   const [toggleScore, setToggleScore] = useState(false);
   const [answered, setAnswered] = useState(false);
+  const [time, setTime] = useState(0);
   const scoreRef = useRef(null);
 
 
@@ -47,6 +48,27 @@ const McqQuiz = ({ questions,seconds,stopTimer }) => {
       setSelectedAnswer(updatedAnswers);
     }
   };
+
+  const handleSaveResult = async (score, total, time) => {
+    try {
+      const response = await axios.post("/api/saveResult", {
+        score,
+        total,
+        time,
+      });
+
+      if (response.status === 201) {
+        toast({
+          title: "Result saved successfully!!",
+          description: "View result in your profile.",
+        })
+      } else {
+        
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
 
   const handleSaveQuestion = async (question, answer, index) => {
     try {
@@ -72,7 +94,7 @@ const McqQuiz = ({ questions,seconds,stopTimer }) => {
     }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!answered) {
       let newScore = 0;
       for (let i = 0; i < length; i++) {
@@ -81,10 +103,12 @@ const McqQuiz = ({ questions,seconds,stopTimer }) => {
         }
       }
       stopTimer();
+      setTime(seconds);
       setScore(newScore);
       setToggleScore(true);
       setAnswered(true);
-
+      await handleSaveResult(newScore, length, time);
+      resetTimer();
       // Scroll to the top of the page
       window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
     }
@@ -160,7 +184,7 @@ const McqQuiz = ({ questions,seconds,stopTimer }) => {
               {length}
             </p>
             <p className=" text-lg">
-              Time taken: <span className="text-green-500">{seconds}</span>{" "}
+              Time taken: <span className="text-green-500">{time}</span>{" "}
               seconds
             </p>
           </div>
