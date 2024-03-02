@@ -1,3 +1,5 @@
+"use client";
+
 import { TabsDemo } from "@/components/Auth";
 import React from "react";
 

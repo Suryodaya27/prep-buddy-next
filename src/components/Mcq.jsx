@@ -35,12 +35,6 @@ const McqQuiz = ({ questions,seconds,stopTimer,resetTimer }) => {
   const scoreRef = useRef(null);
 
 
-  // start timer if length>0
-  // if (length > 0) {
-  //   startTimer();
-  // }
-  // console.log(typeof seconds)
-  // console.log("seconds",seconds)
   const handleAnswerChange = (questionIndex, optionIndex) => {
     if (!answered) {
       const updatedAnswers = [...selectedAnswer];
@@ -51,6 +45,7 @@ const McqQuiz = ({ questions,seconds,stopTimer,resetTimer }) => {
 
   const handleSaveResult = async (score, total, time) => {
     try {
+      console.log(score , total , time);
       const response = await axios.post("/api/saveResult", {
         score,
         total,
@@ -102,6 +97,7 @@ const McqQuiz = ({ questions,seconds,stopTimer,resetTimer }) => {
           newScore++;
         }
       }
+      let time = seconds;
       stopTimer();
       setTime(seconds);
       setScore(newScore);

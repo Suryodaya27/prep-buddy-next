@@ -1,3 +1,5 @@
+"use client";
+
 import McqInput from "@/components/McqInput"
 import { MainNav } from "@/components/Navbar"
 
