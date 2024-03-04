@@ -1,7 +1,7 @@
 "use client";
 
-import axios from "axios";
 import React, { useEffect, useState } from "react";
+import axios from "axios";
 import {
   Accordion,
   AccordionContent,
@@ -23,7 +23,7 @@ import { Label } from "@/components/ui/label";
 import {  Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { TrashIcon } from "@radix-ui/react-icons";
 
-export default function quiz() {
+export default function Quiz() {
 
   const [quiz, setQuiz] = useState([]);
   const [quizLoading, setQuizLoading] = useState(false);
