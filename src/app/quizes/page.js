@@ -1,7 +1,7 @@
 "use client";
 
 import axios from "axios";
-import { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Accordion,
   AccordionContent,
@@ -24,10 +24,12 @@ import {  Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/c
 import { TrashIcon } from "@radix-ui/react-icons";
 
 export default function quiz() {
+
   const [quiz, setQuiz] = useState([]);
   const [quizLoading, setQuizLoading] = useState(false);
   const [quizTitle, setQuizTitle] = useState("");
   const [createQuizLoading, setCreateQuizLoading] = useState(false);
+
   const getQuiz = async () => {
     try {
       setQuizLoading(true);
@@ -108,7 +110,7 @@ export default function quiz() {
         >
           {quiz.map((q) => {
             return (
-              <AccordionItem value={q.id}>
+              <AccordionItem value={q.id} key={q.id}>
                 <AccordionTrigger><h3 className="font-medium text-lg">{q.title}</h3></AccordionTrigger>
                 <AccordionContent>
                   {q.questions?.map((result) => {
