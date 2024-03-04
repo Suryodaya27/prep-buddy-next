@@ -9,7 +9,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-import { Avatr } from "./Avatr"
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
 import { PersonIcon } from "@radix-ui/react-icons";
