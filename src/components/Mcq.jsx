@@ -4,23 +4,37 @@ import React, { useState, useRef } from "react";
 import axios from "axios";
 import jsPDF from "jspdf";
 import "driver.js/dist/driver.css";
-import { useToast } from "@/components/ui/use-toast"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { useToast } from "@/components/ui/use-toast";
+
 import { Button } from "@/components/ui/button";
-import { DropdownMenuIcon } from "@radix-ui/react-icons";
-import useTimer from "@/app/hooks/useTimer";
+import {
+  PlusCircledIcon,
+  BookmarkIcon,
+  BookmarkFilledIcon,
+} from "@radix-ui/react-icons";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
 
-const McqQuiz = ({ questions,seconds,stopTimer,resetTimer }) => {
-
-  const { toast } = useToast()
-  // const { seconds, running, startTimer, stopTimer, resetTimer } = useTimer();
+const McqQuiz = ({ questions, seconds, stopTimer, resetTimer }) => {
+  const { toast } = useToast();
 
   const length = questions.length;
 
@@ -33,7 +47,24 @@ const McqQuiz = ({ questions,seconds,stopTimer,resetTimer }) => {
   const [answered, setAnswered] = useState(false);
   const [time, setTime] = useState(0);
   const scoreRef = useRef(null);
+  const [quizTitles, setQuizTitles] = useState([]);
+  const [quizLoading, setQuizLoading] = useState(false);
+  const [quizTitle, setQuizTitle] = useState("");
+  const [createQuizLoading, setCreateQuizLoading] = useState(false);
 
+  const getQuiz = async () => {
+    try {
+      setQuizLoading(true);
+      const response = await axios.get("/api/getQuiz");
+      if (response.status === 200) {
+        console.log(response.data);
+        setQuizTitles(response.data);
+        setQuizLoading(false);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const handleAnswerChange = (questionIndex, optionIndex) => {
     if (!answered) {
@@ -45,7 +76,7 @@ const McqQuiz = ({ questions,seconds,stopTimer,resetTimer }) => {
 
   const handleSaveResult = async (score, total, time) => {
     try {
-      console.log(score , total , time);
+      console.log(score, total, time);
       const response = await axios.post("/api/saveResult", {
         score,
         total,
@@ -56,14 +87,13 @@ const McqQuiz = ({ questions,seconds,stopTimer,resetTimer }) => {
         toast({
           title: "Result saved successfully!!",
           description: "View result in your profile.",
-        })
+        });
       } else {
-        
       }
     } catch (error) {
       throw error;
     }
-  }
+  };
 
   const handleSaveQuestion = async (question, answer, index) => {
     try {
@@ -80,7 +110,7 @@ const McqQuiz = ({ questions,seconds,stopTimer,resetTimer }) => {
         toast({
           title: "Question saved successfully!!",
           description: "View question in your saved questions.",
-        })
+        });
       } else {
         // Handle error case
       }
@@ -119,55 +149,41 @@ const McqQuiz = ({ questions,seconds,stopTimer,resetTimer }) => {
     pdf.save("mcq-quiz.pdf");
   };
 
-  // driver.js content
-  // const mcqWorking = driver({
-  //   showProgress: true,
-  //   steps:[
-  //     {
-  //       element: '#mcq-quiz-content',
-  //       popover: {
-  //         title: 'Generated Questions',
-  //         description: 'Here are the questions generated from the input text.'
-  //       }
-  //     },
-  //     {
-  //       element: '#mcq-quiz-content li:first-child',
-  //       popover: {
-  //         title: 'Question',
-  //         description: 'This is the first question. Select the correct answer and click on the submit button. Save the question to your saved questions.'
-  //       }
-  //     },
-  //     {
-  //       element: '#mcq-quiz-submit',
-  //       popover: {
-  //         title: 'Submit',
-  //         description: 'Click on the submit button to submit your answers and check score button will appear.',
-  //         position: 'top'
-  //       }
-  //     },
-  //     {
-  //       element: '#mcq-quiz-saveAsPdf',
-  //       popover: {
-  //         title: 'Save as PDF',
-  //         description: 'Click on the save as PDF button to save the questions and answers as a PDF.',
-  //         position: 'top'
-  //       }
-  //     }
-  //   ]
-  // })
-  // // const startFunctioning = () => {
-  // //   console.log("mcq called")
-  // //   mcqWorking.drive();
-  // // }
-  // function startFunctioning() {
-  //   mcqWorking.drive();
-  // }
+  const handleSaveQuestionToQuiz = (quizId, question, answer) => async () => {
+    try {
+      const response = await axios.post("/api/saveQuestionToQuiz", {
+        quizId,
+        question,
+        answer,
+      });
+      if (response.status === 201) {
+        toast({
+          title: "Question saved to quiz successfully!!",
+          description: "View question in your Quizes.",
+        });
+      }
+    } catch (error) {}
+    console.log(quizId);
+  };
+
+  const handleCreateQuiz = async () => {
+    try {
+      setCreateQuizLoading(true);
+      const response = await axios.post("/api/createQuiz", {
+        title: quizTitle,
+      });
+      if (response.status === 201) {
+        setCreateQuizLoading(false);
+        getQuiz();
+        setQuizTitle("");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <div className="mt-3 mb-10 bg-gray-50 rounded-xl shadow-md p-6 text-black mx-auto">
-      {/* <Button variant="default" onClick={startFunctioning} className="mb-4">
-        How it works
-      </Button> */}
       {toggleScore && (
         <div className="pb-10">
           <div
@@ -180,8 +196,7 @@ const McqQuiz = ({ questions,seconds,stopTimer,resetTimer }) => {
               {length}
             </p>
             <p className=" text-lg">
-              Time taken: <span className="text-green-500">{time}</span>{" "}
-              seconds
+              Time taken: <span className="text-green-500">{time}</span> seconds
             </p>
           </div>
         </div>
@@ -194,13 +209,82 @@ const McqQuiz = ({ questions,seconds,stopTimer,resetTimer }) => {
             key={element.id}
             className="mb-4 p-6 outline-1 bg-white  hover:shadow-lg rounded-lg"
           >
-            <div className="flex flex-row justify-between">
+            <div className="flex flex-row justify-between items-center">
               <p className=" font-medium mb-2 font-sans text-lg">
                 {element.question}
               </p>
-              {/* <Button
-                size="sm"
-                variant="outline"
+              <Button size="sm" variant="icon" onClick={getQuiz}>
+                <Sheet>
+                  <SheetTrigger><PlusCircledIcon/></SheetTrigger>
+                  <SheetContent>
+                    <SheetHeader>
+                      <SheetTitle>Your quizes</SheetTitle>
+
+                      <SheetDescription>
+                        {quizLoading && <p>Loading...</p>}
+                        {!quizLoading && quizTitles.length === 0 && (
+                          <p>No quiz found</p>
+                        )}
+                        {!quizLoading &&
+                          quizTitles.length > 0 &&
+                          quizTitles.map((quiz, index) => (
+                            <div
+                              key={index}
+                              className="cursor-pointer my-2 p-3 bg-slate-200 font-medium rounded-md text-black"
+                              onClick={handleSaveQuestionToQuiz(
+                                quiz.id,
+                                element.question,
+                                element.answer
+                              )}
+                            >
+                              {quiz.title}
+                            </div>
+                          ))}
+                      </SheetDescription>
+                    </SheetHeader>
+                    <SheetFooter>
+                      <Dialog>
+                        <DialogTrigger asChild>
+                          <Button variant="outline">Create new</Button>
+                        </DialogTrigger>
+                        <DialogContent className="sm:max-w-[425px]">
+                          <DialogHeader>
+                            <DialogTitle>create new quiz</DialogTitle>
+                            <DialogDescription>
+                              Enter title of the quiz and click on create
+                            </DialogDescription>
+                          </DialogHeader>
+                          <div className="grid gap-4 py-4">
+                            <div className="">
+                              <Label htmlFor="name" className="text-right">
+                                Title
+                              </Label>
+                              <Input
+                                id="name"
+                                type="text"
+                                placeholder="Title"
+                                value={quizTitle}
+                                onChange={(e) => setQuizTitle(e.target.value)}
+                              />
+                            </div>
+                          </div>
+                          <DialogFooter>
+                            <Button
+                              onClick={handleCreateQuiz}
+                              disabled={createQuizLoading}
+                            >
+                              {createQuizLoading ? "Loading" : "Create"}
+                            </Button>
+                          </DialogFooter>
+                        </DialogContent>
+                      </Dialog>
+                    </SheetFooter>
+                  </SheetContent>
+                </Sheet>
+              </Button>
+              
+              <Button
+                variant="icon"
                 onClick={() =>
                   handleSaveQuestion(
                     element.question,
@@ -208,33 +292,13 @@ const McqQuiz = ({ questions,seconds,stopTimer,resetTimer }) => {
                     element.id
                   )
                 }
-                disabled={savedQuestions[element.id - 1] === "Saved"}
               >
-                {savedQuestions[element.id - 1]}
-              </Button> */}
-              {/* dropdown for saving options */}
-              <DropdownMenu>
-                <DropdownMenuTrigger><DropdownMenuIcon/></DropdownMenuTrigger>
-                <DropdownMenuContent>
-                  <DropdownMenuLabel>
-                    Options
-                  </DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem
-                    onClick={() =>
-                      handleSaveQuestion(
-                        element.question,
-                        element.answer,
-                        element.id
-                      )
-                    }
-                  >
-                    {savedQuestions[element.id - 1]}
-                  </DropdownMenuItem>
-                  
-                  <DropdownMenuItem>Create Quiz</DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
+                {savedQuestions[element.id - 1] === "Save" ? (
+                  <BookmarkIcon />
+                ) : (
+                  <BookmarkFilledIcon />
+                )}
+              </Button>
             </div>
             <ul className="ml-6 space-y-2">
               {element.options.map((option, optionIndex) => (

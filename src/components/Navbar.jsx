@@ -32,7 +32,7 @@ export function MainNav() {
                 : "text-foreground/60"
             )}
           >
-            Generate Mcq
+            Generate
           </Link>
 
           <Link
@@ -44,7 +44,19 @@ export function MainNav() {
                 : "text-foreground/60"
             )}
           >
-            Saved Questions
+            Saved
+          </Link>
+
+          <Link
+            href="/quizes"
+            className={cn(
+              "sm:hidden lg:block transition-colors hover:text-foreground/80",
+              pathname === "/quizes"
+                ? "text-foreground border-b-2 border-foreground/80"
+                : "text-foreground/60"
+            )}
+          >
+            Quizes
           </Link>
         </nav>
         <div>

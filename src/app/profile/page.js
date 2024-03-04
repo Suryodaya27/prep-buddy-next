@@ -19,10 +19,6 @@ export default function Profile() {
   const [totalScore, setTotalSCore] = useState(0);
   const [totalQuestion, setTotalQuestion] = useState(0);
 
-  useEffect(() => {
-    getResult();
-  }, []);
-
   const getResult = async () => {
     try {
       const response = await axios.get("/api/savedResult");
@@ -37,6 +33,12 @@ export default function Profile() {
       console.error(error);
     }
   };
+
+  useEffect(() => {
+    getResult();
+  }, []);
+
+  
   // Render data...
   return (
     <div>
