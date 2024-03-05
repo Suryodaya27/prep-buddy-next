@@ -213,92 +213,98 @@ const McqQuiz = ({ questions, seconds, stopTimer, resetTimer }) => {
               <p className=" font-medium mb-2 font-sans text-lg">
                 {element.question}
               </p>
-              <Button size="sm" variant="icon" onClick={getQuiz}>
-                <Sheet>
-                  <SheetTrigger><PlusCircledIcon/></SheetTrigger>
-                  <SheetContent>
-                    <SheetHeader>
-                      <SheetTitle>Your quizes</SheetTitle>
+              <div className="flex gap-1 items-center">
+                <div>
+                  <Sheet>
+                    <SheetTrigger>
+                      <Button size="sm" variant="icon" onClick={getQuiz}>
+                        <PlusCircledIcon />
+                      </Button>
+                    </SheetTrigger>
+                    <SheetContent>
+                      <SheetHeader>
+                        <SheetTitle>Your quizes</SheetTitle>
 
-                      <SheetDescription>
-                        {quizLoading && <p>Loading...</p>}
-                        {!quizLoading && quizTitles.length === 0 && (
-                          <p>No quiz found</p>
-                        )}
-                        {!quizLoading &&
-                          quizTitles.length > 0 &&
-                          quizTitles.map((quiz, index) => (
-                            <div
-                              key={index}
-                              className="cursor-pointer my-2 p-3 bg-slate-200 font-medium rounded-md text-black"
-                              onClick={handleSaveQuestionToQuiz(
-                                quiz.id,
-                                element.question,
-                                element.answer
-                              )}
-                            >
-                              {quiz.title}
+                        <SheetDescription>
+                          {quizLoading && <p>Loading...</p>}
+                          {!quizLoading && quizTitles.length === 0 && (
+                            <p>No quiz found</p>
+                          )}
+                          {!quizLoading &&
+                            quizTitles.length > 0 &&
+                            quizTitles.map((quiz, index) => (
+                              <div
+                                key={index}
+                                className="cursor-pointer my-2 p-3 bg-slate-200 font-medium rounded-md text-black"
+                                onClick={handleSaveQuestionToQuiz(
+                                  quiz.id,
+                                  element.question,
+                                  element.answer
+                                )}
+                              >
+                                {quiz.title}
+                              </div>
+                            ))}
+                        </SheetDescription>
+                      </SheetHeader>
+                      <SheetFooter>
+                        <Dialog>
+                          <DialogTrigger asChild>
+                            <Button variant="outline">Create new</Button>
+                          </DialogTrigger>
+                          <DialogContent className="sm:max-w-[425px]">
+                            <DialogHeader>
+                              <DialogTitle>create new quiz</DialogTitle>
+                              <DialogDescription>
+                                Enter title of the quiz and click on create
+                              </DialogDescription>
+                            </DialogHeader>
+                            <div className="grid gap-4 py-4">
+                              <div className="">
+                                <Label htmlFor="name" className="text-right">
+                                  Title
+                                </Label>
+                                <Input
+                                  id="name"
+                                  type="text"
+                                  placeholder="Title"
+                                  value={quizTitle}
+                                  onChange={(e) => setQuizTitle(e.target.value)}
+                                />
+                              </div>
                             </div>
-                          ))}
-                      </SheetDescription>
-                    </SheetHeader>
-                    <SheetFooter>
-                      <Dialog>
-                        <DialogTrigger asChild>
-                          <Button variant="outline">Create new</Button>
-                        </DialogTrigger>
-                        <DialogContent className="sm:max-w-[425px]">
-                          <DialogHeader>
-                            <DialogTitle>create new quiz</DialogTitle>
-                            <DialogDescription>
-                              Enter title of the quiz and click on create
-                            </DialogDescription>
-                          </DialogHeader>
-                          <div className="grid gap-4 py-4">
-                            <div className="">
-                              <Label htmlFor="name" className="text-right">
-                                Title
-                              </Label>
-                              <Input
-                                id="name"
-                                type="text"
-                                placeholder="Title"
-                                value={quizTitle}
-                                onChange={(e) => setQuizTitle(e.target.value)}
-                              />
-                            </div>
-                          </div>
-                          <DialogFooter>
-                            <Button
-                              onClick={handleCreateQuiz}
-                              disabled={createQuizLoading}
-                            >
-                              {createQuizLoading ? "Loading" : "Create"}
-                            </Button>
-                          </DialogFooter>
-                        </DialogContent>
-                      </Dialog>
-                    </SheetFooter>
-                  </SheetContent>
-                </Sheet>
-              </Button>
-              
-              <Button
-                variant="icon"
-                onClick={() =>
-                  handleSaveQuestion(
-                    element.question,
-                    element.answer,
-                    element.id
-                  )
-                }
-              >
-                {savedQuestions[element.id - 1] === "Save" ? (
-                  <BookmarkIcon />
-                ) : (
-                  <BookmarkFilledIcon />
-                )}
-              </Button>
+                            <DialogFooter>
+                              <Button
+                                onClick={handleCreateQuiz}
+                                disabled={createQuizLoading}
+                              >
+                                {createQuizLoading ? "Loading" : "Create"}
+                              </Button>
+                            </DialogFooter>
+                          </DialogContent>
+                        </Dialog>
+                      </SheetFooter>
+                    </SheetContent>
+                  </Sheet>
+                </div>
+
+                <Button
+                  variant="icon"
+                  onClick={() =>
+                    handleSaveQuestion(
+                      element.question,
+                      element.answer,
+                      element.id
+                    )
+                  }
+                >
+                  {savedQuestions[element.id - 1] === "Save" ? (
+                    <BookmarkIcon />
+                  ) : (
+                    <BookmarkFilledIcon />
+                  )}
+                </Button>
+              </div>
             </div>
             <ul className="ml-6 space-y-2">
               {element.options.map((option, optionIndex) => (
