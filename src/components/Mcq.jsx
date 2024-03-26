@@ -32,6 +32,7 @@ import {
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
+import { set } from "react-hook-form";
 
 const McqQuiz = ({ questions, seconds, stopTimer, resetTimer }) => {
   const { toast } = useToast();
@@ -39,6 +40,7 @@ const McqQuiz = ({ questions, seconds, stopTimer, resetTimer }) => {
   const length = questions.length;
 
   const answers = Array(length).fill("");
+  const [justifiedAnswers,setJustifiedAnswers] = useState(answers);
   const save = Array(length).fill("Save");
   const [savedQuestions, setSavedQuestions] = useState(save);
   const [selectedAnswer, setSelectedAnswer] = useState(answers);
@@ -181,6 +183,27 @@ const McqQuiz = ({ questions, seconds, stopTimer, resetTimer }) => {
       console.error(error);
     }
   };
+
+  const askAi = async (id,question,answer) => {
+    console.log(id,question,answer)
+    try {
+      const response = await axios.post("/api/askAi", {
+        question,
+        answer,
+      });
+      if (response.status === 200) {
+        console.log(response.data);
+        toast({
+          title: "Justification from AI",
+          description: response.data,
+          duration: 15000, // Set the duration in milliseconds (e.g. 3000ms = 3 seconds)
+        });
+
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   return (
     <div className="mt-3 mb-10 bg-gray-50 rounded-xl shadow-md p-6 text-black mx-auto">
@@ -335,7 +358,14 @@ const McqQuiz = ({ questions, seconds, stopTimer, resetTimer }) => {
               ))}
               {/* </RadioGroup> */}
             </ul>
+            {answered && (<div><Button variant="link" onClick={()=>askAi(element.id,element.question,element.answer)}>
+              Ask AI
+            </Button>
+            <div>{justifiedAnswers[element.id]}</div>
+            </div>
+            )}
           </li>
+          
         ))}
       </ul>
       <div className="flex space-x-4 mt-8 mb-5">
