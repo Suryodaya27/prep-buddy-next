@@ -1,6 +1,6 @@
 import { TextServiceClient } from '@google-ai/generativelanguage';
 import { GoogleAuth } from 'google-auth-library';
-import redis from '@/lib/redis';
+// import redis from '@/lib/redis';
 // const MODEL_NAME = process.env.MODEL_NAME;
 // const API_KEY = process.env.API_KEY;
 
@@ -65,7 +65,9 @@ function shuffleArray(array) {
   
   async function generateSentences(inputParagraph,noOfQuestions) {
     try {
+
       const output = await generateRephrasedOutput(inputParagraph);
+      // console.log(inputParagraph,output)
       const sentences = await splitSentences(output, noOfQuestions);
       return sentences;
     } catch (error) {
@@ -75,7 +77,7 @@ function shuffleArray(array) {
   }
   
   async function getQuestionAnswer(context) {
-    const prompt = `Context: "${context}" from given context please generate question and answer, and return like this question&answer just write the question and answer no need for titles and only use one "&" to separate question and answer and not any other special characters and generate short 1-5 words answers only and not simple as well as not same, try to create a unique set of questions and answers`;
+    const prompt = `Context: "${context}" from given context please generate question and answer, and return like this "question & answer" just write the question and answer no need for titles and only use one "&" to separate question and answer and not any other special characters and generate short 1-5 words answers only and not simple as well as not same, try to create a unique set of questions and answers`;
     try {
       const result = await client.generateText({
         model: MODEL_NAME,

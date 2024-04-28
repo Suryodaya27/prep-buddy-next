@@ -73,21 +73,29 @@ const McqInput = () => {
       setLoading(true);
       setDisable(true);
       setQuestions([]);
+      let finalInputParagraph = inputParagraph;
       if (type === "Link") {
         const scrapedData = await axios.post("/api/scrape", {
           url: inputParagraph,
         });
-        setInputParagraph(scrapedData.data.scrapedData.scrapedData);
-      }
 
+        // console.log(scrapedData)
+        const res = scrapedData.data.scrapedData.scrapedData;
+        // console.log("Scraped result: ",scrapedData.data.scrapedData.scrapedData);
+
+        finalInputParagraph = res;
+
+        
+      }
+      // console.log("Final input paragraph: ", finalInputParagraph)
       const response = await axios.post("/api/generate", {
-        inputParagraph: inputParagraph,
+        inputParagraph: finalInputParagraph,
         noOfQuestions: noOfQuestions,
       });
 
       if (response.status === 200) {
         startTimer();
-        console.log(seconds);
+        // console.log(seconds);
         setQuestions(response.data.questions);
         setSearched(true);
         setLoading(false);

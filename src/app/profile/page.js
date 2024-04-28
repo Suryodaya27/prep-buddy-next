@@ -42,9 +42,9 @@ export default function Profile() {
   // Render data...
   return (
     <div>
-      <div className=" m-5 text-right">
+      {/* <div className=" m-5 text-right">
         <button onClick={getResult} ><ReloadIcon/></button>
-      </div>
+      </div> */}
         {/* <div>
           <h3>Results:</h3>
           <ul>
