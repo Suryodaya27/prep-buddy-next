@@ -7,6 +7,7 @@ import generate from "@/controllers/questionGeneration.controller";
 
 export async function POST(request){
     let { inputParagraph, noOfQuestions } = await request.json();
+    // console.log(inputParagraph)
     if (!inputParagraph) {
         throw new Error('Input paragraph is empty');
     }
